@@ -17,9 +17,6 @@ on:
       mailFrom:
         required: true
         type: string
-      mailBody:
-        required: true
-        type: string
       env:
         required: true
         type: string
@@ -53,4 +50,4 @@ jobs:
           to: ${{ inputs.mailTo }}
           from: ${{ inputs.mailFrom }}
           subject: ${{ inputs.project }} ${{ steps.vars.outputs.tag }} 发布到 ${{ inputs.env }} 环境
-          body: "<p>服务器开始滚动更新，预计几分钟后生效。</p><p><h3>更新内容如下</h3><br/>${{ inputs.mailBody }}</p>"
+          body: "<p>服务器开始滚动更新，预计几分钟后生效。</p><p><h3>更新内容如下</h3><br/>${{ fromJson(steps.get_release_notes.outputs.data).body }}</p>"
