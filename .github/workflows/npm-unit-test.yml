@@ -1,0 +1,24 @@
+name: Unit Test
+on: workflow_call
+jobs:
+  unitTest:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - name: 设置node环境版本12.x
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: "14"
+      - name: 缓存npm安装模块
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm
+      - name: Lint & Test
+        run: |
+          npm install
+          npm run lint
+          npm run test
