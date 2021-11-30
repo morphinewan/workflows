@@ -1,0 +1,78 @@
+name: Webpack打包构建
+on:
+  workflow_call:
+    inputs:
+      buildArg:
+        required: false
+        type: string
+      dockerBuildMode:
+        required: true
+        type: string
+      kubectlRelease:
+        required: true
+        type: string
+    secrets:
+      qiniuAccessKey:
+        required: true
+      qiniuBucket:
+        required: true
+      qiniuScecretKey:
+        required: true
+      pat:
+        required: true
+      aliyunAcrPassword:
+        required: true
+      kubeConfig:
+        required: true
+jobs:
+  buildAndDeploy:
+    name: Webpack打包构建
+    runs-on: ubuntu-latest
+    steps:
+      - name: 更新源代码
+        uses: actions/checkout@v2.4.0
+      - name: 更新依赖的子模块代码
+        uses: actions/checkout@v2.4.0
+        with:
+          repository: keyuinfo/akita
+          path: "akita"
+          token: ${{ secrets.pat }}
+          ref: "master"
+      - name: 设置node环境版本
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: "14"
+      - name: 缓存npm安装模块
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm
+      - name: 输出全局变量-版本号
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      - name: Webpack构建
+        run: ./build.sh -v ${{ steps.vars.outputs.tag }} ${{ input.buildArg }}
+      - name: 上传到CDN
+        run: |
+          curl -SsO https://morphinewan.github.io/tools/qnsync
+          chmod +x qnsync
+          ./qnsync -ak $QINIU_ACCESS_KEY -sk $QINIU_SECRET_KEY -bk $QINIU_BUCKET $GITHUB_WORKSPACE/$SYNC_PATH
+        env:
+          QINIU_ACCESS_KEY: ${{ secrets.qiniuAccessKey }}
+          QINIU_BUCKET: ${{ secrets.qiniuBucket }}
+          QINIU_SECRET_KEY: ${{ secrets.qiniuScecretKey }}
+          SYNC_PATH: dist/static
+      - name: 推送镜像到阿里云ACR
+        uses: ./.github/actions/docker
+        env:
+          BUILD_MODE: ${{ input.dockerBuildMode }}
+          ALIYUN_ACR_REGISTRY_PASSWORD: ${{ secrets.aliyunAcrPassword }}
+      - uses: ./.github/actions/kubectl
+        name: 更新K8S
+        env:
+          VERSION: ${{ steps.vars.outputs.tag }}
+          RELEASE: ${{ inputs.kubectlRelease }}
+        with:
+          KUBECONFIG: ${{ secrets.kubeConfig }}
