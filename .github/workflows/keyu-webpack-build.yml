@@ -53,7 +53,7 @@ jobs:
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF:10}
       - name: Webpack构建
-        run: ./build.sh -v ${{ steps.vars.outputs.tag }} ${{ input.buildArg }}
+        run: ./build.sh -v ${{ steps.vars.outputs.tag }} ${{ inputs.buildArg }}
       - name: 上传到CDN
         run: |
           curl -SsO https://morphinewan.github.io/tools/qnsync
@@ -67,7 +67,7 @@ jobs:
       - name: 推送镜像到阿里云ACR
         uses: ./.github/actions/docker
         env:
-          BUILD_MODE: ${{ input.dockerBuildMode }}
+          BUILD_MODE: ${{ inputs.dockerBuildMode }}
           ALIYUN_ACR_REGISTRY_PASSWORD: ${{ secrets.aliyunAcrPassword }}
       - uses: ./.github/actions/kubectl
         name: 更新K8S
