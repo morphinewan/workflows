@@ -1,0 +1,13 @@
+# dependabot.yml file with updates
+# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates#package-ecosystem
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "13:00"
+      timezone: "Asia/Shanghai"
+    assignees:
+      - "morphinewan"

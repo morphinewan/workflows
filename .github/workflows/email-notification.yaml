@@ -1,0 +1,56 @@
+name: MailGun邮件通知
+on:
+  workflow_call:
+    inputs:
+      project:
+        required: true
+        type: string
+      owner:
+        required: true
+        type: string
+      repo:
+        required: true
+        type: string
+      mailTo:
+        required: true
+        type: string
+      mailFrom:
+        required: true
+        type: string
+      mailBody:
+        required: true
+        type: string
+      env:
+        required: true
+        type: string
+    secrets:
+      githubToken:
+        required: true
+      mailgunKey:
+        required: true
+jobs:
+  sendNotification:
+    name: 发送通知
+    runs-on: ubuntu-latest
+    steps:
+      - name: 输出全局变量-版本号
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      - uses: octokit/request-action@v2.x
+        id: get_release_notes
+        with:
+          route: GET /repos/{owner}/{repo}/releases/tags/{tag}
+          owner: ${{ inputs.owner }}
+          repo: ${{ inputs.repo }}
+          tag: ${{ steps.vars.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.githubToken }}
+      - name: Mailgun Action
+        uses: vineetchoudhary/mailgun-action@v1.1
+        with:
+          api-key: ${{ secrets.mailgunKey }}
+          domain: wanyi.me
+          to: ${{ inputs.mailTo }}
+          from: ${{ inputs.mailFrom }}
+          subject: ${{ inputs.project }} ${{ steps.vars.outputs.tag }} 发布到 ${{ inputs.env }} 环境
+          body: "<p>服务器开始滚动更新，预计几分钟后生效。</p><p><h3>更新内容如下</h3><br/>${{ inputs.mailBody }}</p>"
