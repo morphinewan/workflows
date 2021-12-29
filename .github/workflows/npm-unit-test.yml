@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.4.0
       - name: 设置node环境版本12.x
-        uses: actions/setup-node@v2.5.0
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
       - name: 缓存npm安装模块
