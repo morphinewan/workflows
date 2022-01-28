@@ -46,9 +46,9 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: ~/.npm
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.OS }}-npm
+            ${{ runner.OS }}-node
       - name: 输出全局变量-版本号
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF:10}
