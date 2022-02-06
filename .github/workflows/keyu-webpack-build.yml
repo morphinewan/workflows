@@ -37,7 +37,7 @@ jobs:
           repository: keyuinfo/akita
           path: "akita"
           token: ${{ secrets.pat }}
-          ref: ${{ inputs.dockerBuildMode }}
+          ref: master
       - name: 设置node环境版本
         uses: actions/setup-node@v2.5.1
         with:
