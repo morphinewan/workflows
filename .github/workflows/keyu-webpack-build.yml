@@ -30,9 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 更新源代码
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
       - name: 更新依赖的子模块代码
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           repository: keyuinfo/akita
           path: "akita"
