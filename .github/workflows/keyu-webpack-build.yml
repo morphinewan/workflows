@@ -60,7 +60,7 @@ jobs:
         run: ./build.sh -v ${{ steps.vars.outputs.tag }} ${{ inputs.buildArg }}
       - name: 上传到CDN
         run: |
-          curl -SsO https://static.keyush.cn/tools/qsync
+          curl -SsO https://morphinewan.github.io/tools/qnsync
           chmod +x qnsync
           ./qnsync -ak $QINIU_ACCESS_KEY -sk $QINIU_SECRET_KEY -bk $QINIU_BUCKET $GITHUB_WORKSPACE/$SYNC_PATH
         env:
