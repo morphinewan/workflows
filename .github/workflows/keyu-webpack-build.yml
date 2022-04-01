@@ -42,17 +42,7 @@ jobs:
         uses: actions/setup-node@v3.0.0
         with:
           node-version: "14"
-      - name: 获取npm缓存目录
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - name: 缓存npm安装模块
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: "npm"
       - name: 输出全局变量-版本号
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF:10}
