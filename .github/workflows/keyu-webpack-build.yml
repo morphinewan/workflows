@@ -39,7 +39,7 @@ jobs:
           token: ${{ secrets.pat }}
           ref: master
       - name: 设置node环境版本
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3.1.1
         with:
           node-version: "14"
           cache: "npm"
