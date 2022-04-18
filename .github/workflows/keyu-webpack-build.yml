@@ -18,11 +18,11 @@ on:
         required: true
       qiniuScecretKey:
         required: true
-      pat:
-        required: true
       aliyunAcrPassword:
         required: true
       kubeConfig:
+        required: true
+      sshKey:
         required: true
 jobs:
   buildAndDeploy:
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: "true"
-          ssh-key: "${{ secrets.KEYUBOT_SSH_KEY }}"
+          ssh-key: "${{ secrets.sshKey }}"
       - name: 设置node环境版本
         uses: actions/setup-node@v3.1.1
         with:
