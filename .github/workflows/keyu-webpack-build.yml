@@ -53,11 +53,11 @@ jobs:
           QINIU_BUCKET: ${{ secrets.qiniuBucket }}
           QINIU_SECRET_KEY: ${{ secrets.qiniuScecretKey }}
           SYNC_PATH: dist/static
-      - name: 推送镜像到阿里云ACR
+      - name: 推送镜像到GitHub Packages
         uses: ./.github/actions/docker
         env:
           BUILD_MODE: ${{ inputs.dockerBuildMode }}
-          ALIYUN_ACR_REGISTRY_PASSWORD: ${{ secrets.aliyunAcrPassword }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/kubectl
         name: 更新K8S
         env:
