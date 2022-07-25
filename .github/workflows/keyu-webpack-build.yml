@@ -22,6 +22,8 @@ on:
         required: true
       sshKey:
         required: true
+      dockerPassword:
+        required: true
 jobs:
   buildAndDeploy:
     name: Webpack打包构建
@@ -55,7 +57,7 @@ jobs:
         uses: ./.github/actions/docker
         env:
           BUILD_MODE: ${{ inputs.dockerBuildMode }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_PASSWORD: ${{ secrets.dockerPassword }}
       - uses: ./.github/actions/kubectl
         name: 更新K8S
         env:
