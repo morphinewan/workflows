@@ -52,7 +52,7 @@ jobs:
           QINIU_ACCESS_KEY: ${{ secrets.qiniuAccessKey }}
           QINIU_BUCKET: ${{ secrets.qiniuBucket }}
           QINIU_SECRET_KEY: ${{ secrets.qiniuScecretKey }}
-          SYNC_PATH: dist/static
+          SYNC_PATH: dist
       - name: 推送镜像到GitHub Packages
         uses: ./.github/actions/docker
         env:

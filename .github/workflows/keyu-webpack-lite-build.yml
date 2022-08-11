@@ -45,7 +45,7 @@ jobs:
           QINIU_ACCESS_KEY: ${{ secrets.qiniuAccessKey }}
           QINIU_BUCKET: ${{ secrets.qiniuBucket }}
           QINIU_SECRET_KEY: ${{ secrets.qiniuScecretKey }}
-          SYNC_PATH: dist/static
+          SYNC_PATH: dist
       - name: 刷新CDN缓存
         run: |
           curl -SsO https://devtools.qiniu.com/qshell-v2.9.0-linux-amd64.tar.gz
