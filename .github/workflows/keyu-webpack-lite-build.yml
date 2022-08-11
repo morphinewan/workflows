@@ -40,7 +40,7 @@ jobs:
         run: |
           curl -SsO https://morphinewan.github.io/tools/qnsync
           chmod +x qnsync
-          ./qnsync -ak $QINIU_ACCESS_KEY -sk $QINIU_SECRET_KEY -bk $QINIU_BUCKET $GITHUB_WORKSPACE/$SYNC_PATH
+          ./qnsync -force -ak $QINIU_ACCESS_KEY -sk $QINIU_SECRET_KEY -bk $QINIU_BUCKET $GITHUB_WORKSPACE/$SYNC_PATH
         env:
           QINIU_ACCESS_KEY: ${{ secrets.qiniuAccessKey }}
           QINIU_BUCKET: ${{ secrets.qiniuBucket }}
