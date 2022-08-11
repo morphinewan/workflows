@@ -51,9 +51,9 @@ jobs:
           curl -SsO https://devtools.qiniu.com/qshell-v2.9.0-linux-amd64.tar.gz
           tar -xf qshell-v2.9.0-linux-amd64.tar.gz
           chmod +x qshell
-          qshell account $QINIU_ACCESS_KEY $QINIU_SECRET_KEY keyu
+          ./qshell account $QINIU_ACCESS_KEY $QINIU_SECRET_KEY keyu
           echo ${{ inputs.refreshUrls }} > torefresh.txt
-          qshell cdnrefresh -i torefresh.txt
+          ./qshell cdnrefresh -i torefresh.txt
         env:
           QINIU_ACCESS_KEY: ${{ secrets.qiniuAccessKey }}
           QINIU_SECRET_KEY: ${{ secrets.qiniuScecretKey }}
