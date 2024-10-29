@@ -34,7 +34,7 @@ jobs:
           submodules: "true"
           ssh-key: "${{ secrets.sshKey }}"
       - name: 设置node环境版本
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: "14"
           cache: "npm"
