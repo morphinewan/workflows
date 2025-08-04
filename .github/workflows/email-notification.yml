@@ -43,7 +43,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
       - name: Mailgun Action
-        uses: vineetchoudhary/mailgun-action@v1.1
+        uses: vineetchoudhary/mailgun-action@v1.2
         with:
           api-key: ${{ secrets.mailgunKey }}
           domain: wanyi.me
